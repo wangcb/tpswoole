@@ -4,7 +4,7 @@
 步骤：
 1，启动swoole服务
 进入网站根目录输入命令
-php index.php /swoole/server
+php index.php /swoole/server/start
 
 2，部署客户端
 将client文件放到网站下，直接访问就ok了
