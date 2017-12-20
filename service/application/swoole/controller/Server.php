@@ -96,7 +96,7 @@ class Server extends CometServer{
     function cmd_message($client_id, $msg){
         $resMsg['cmd']      = $msg['cmd'];
         $resMsg['msgid']    = rand(10000,99999).time().$this->user['id'];
-        $resMsg['msg']      = htmlspecialchars(keywords($msg['msg']));
+        $resMsg['msg']      = htmlspecialchars($msg['msg']);
         $resMsg['name']     = $this->user['name'];
         $resMsg['avatar']   = $this->user['avatar'];
         $resMsg['time']     = date('Y-m-d H:i:s');

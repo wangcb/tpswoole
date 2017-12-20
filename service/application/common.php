@@ -15,44 +15,7 @@
  * @author wangcb
  */
 
-function getKeywords(){
-    $data = (array)cache('keywords');
-    if(!$data){
-        $res = curl('http://113.107.150.180:52004/api/SensitiveWord/SelectSensitiveWord?wordType=3&pageIndex=1&pageSize=10000','');
-        $res = json_decode($res,true);
-        if($res['code'] == 100){
-            array_walk($res['data'], function(&$v){$v = preg_replace('/\s+?/','', $v);});
-            $data  = array_chunk(array_column($res['data'], 'SWords'), 200);
-            cache('keywords',$data,300);
-        }
-    }
-    return $data;
-}
 
-function keywords($str = null) {
-    if($str){
-        //dump($data);
-        $data   = getKeywords();
-        foreach ($data as $value){
-            foreach ($value as &$v){
-                $v = '('.implode(')[^0-9a-zA-Z\x{4e00}-\x{9fa5}]*?(', ch2arr($v)).')';
-            }
-            $preg   = implode('|', $value);
-            $str    = preg_replace_callback(
-                '/'.$preg.'/iu',
-                function($match){
-                    $str = $match[0];
-                    foreach ($match as $k=>$v){
-                        if($k > 0 && !empty($v)){
-                            $str = str_replace($v, '*', $str);
-                        }
-                    }
-                    return $str;
-                }, $str);
-        }
-        return $str;
-    }
-}
 //字符串转数组
 function ch2arr($str)
 {
